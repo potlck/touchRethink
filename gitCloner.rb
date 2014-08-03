@@ -5,29 +5,32 @@ include RethinkDB::Shortcuts
 conn = r.connect(:host => 'localhost', :port => 28015, :db => 'management').repl
 
 r.table('nodes').changes().filter{|row| # catches only changes that add/delete nodes
-		(row['old_val'].eq(nil) || row['new_val'].eq(nil))
+		(row['old_val'].eq(nil)) #Currently only works for adding new nodes	# || row['new_val'].eq(nil))
 	}.run(conn).each{|change| 
 	p(change)
+	ipToAdd = change["new_val"]["ip"]
+	id = change["new_val"]["id"]
 	# every change here should lead us to rewrite the nginX config
 	# /etc/nginx/sites-enabled/app.conf
 	config = ""
 	
-	conf = File.open('./app.conf').read
+	conf = File.open('/etc/nginx/sites-enabled/app.conf').read
 	conf.each_line do |li|
 		config += li
-  		if (li['An'])
+  		if (li['upstream cluster {'])
   			puts "found beginning of config section: add an ip address here"
-  			config += "Updated"
+  			config += "server #{idToAdd}:1995;"
   		end
 	end
 
 	puts config
 	# edit config
-	File.write('./app.conf', config)
+	File.write('/etc/nginx/sites-enabled/app.conf', config)
 
 	exec '/etc/init.d/nginx reload'
 	# if NEW:
-	exec 'git clone <repo> <name>'
-	exec 'git pull <repo> <name>'
-	exec 'chown 9999:9999 -R /home/app/<name>'
+	exec "echo #{ipToAdd}"
+	exec "git clone <repo> #{idToAdd}"
+	exec "git pull <repo> #{idToAdd}"
+	exec "chown 9999:9999 -R /home/app/#{idToAdd}"
 }
