@@ -3,6 +3,9 @@ dbh = require('dbHandler')
 var name = dbh.name();
 console.log("Project name is: " + name);
 
+// TODO have this connection code as part of the exported
+// module so we just touch things through that
+
 r.connect({ host: 'localhost', port: 28015 }, function(err, conn) {
   if(err) throw err;
   r.dbList().run(conn, function(err, dbs) {
@@ -16,8 +19,7 @@ r.connect({ host: 'localhost', port: 28015 }, function(err, conn) {
 	}
   });
 });
-  	/*
-});
+/*
 
   ('test').tableCreate('tv_shows').run(conn, function(err, res) {
   #  if(err) throw err;
