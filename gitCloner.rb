@@ -26,4 +26,8 @@ r.table('nodes').changes().filter{|row| # catches only changes that add/delete n
 	File.write('./app.conf', config)
 
 	exec '/etc/init.d/nginx reload'
+	# if NEW:
+	exec 'git clone <repo> <name>'
+	exec 'git pull <repo> <name>'
+	exec 'chown 9999:9999 -R /home/app/<name>'
 }
