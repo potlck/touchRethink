@@ -2,6 +2,8 @@ dbh = require('dbHandler')
 
 var name = dbh.init(); // always call init first
 
+console.log(name);
+
 // TODO have this connection code as part of the exported
 // module so we just touch things through that
 
