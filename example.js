@@ -1,4 +1,4 @@
-dbh = require('dbHandler')
+dbh = require('dbHandler');
 
 var name = dbh.init(); // always call init first
 console.log("Application name: " + name);
