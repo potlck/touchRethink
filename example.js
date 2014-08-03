@@ -1,26 +1,10 @@
 dbh = require('dbHandler')
 
 var name = dbh.init(); // always call init first
-console.log("Project name is: " + name);
-
-var db = dbg.connect(); // connects to this apps db
 
 // TODO have this connection code as part of the exported
 // module so we just touch things through that
 
-r.connect({ host: 'localhost', port: 28015 }, function(err, conn) {
-  if(err) throw err;
-  r.dbList().run(conn, function(err, dbs) {
-  	if(err) throw err;
-	console.log("Got DB list");
-	if (dbs.indexOf(name) > -1) {
-		console.log("Db exists");
-	} else {
-		console.log("Db does not exist");
-		r.dbCreate(name)	
-	}
-  });
-});
 /*
 
   ('test').tableCreate('tv_shows').run(conn, function(err, res) {
